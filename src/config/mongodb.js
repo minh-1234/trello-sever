@@ -1,8 +1,3 @@
-/**
- * Updated by trungquandev.com's author on August 17 2023
- * YouTube: https://youtube.com/@trungquandev
- * "A bit of fragrance clings to the hand that gives flowers!"
- */
 const { MongoClient, ServerApiVersion } = require('mongodb')
 import { env } from '~/config/environment'
 
@@ -24,7 +19,7 @@ export const Connect_DB = async () => {
   console.log('Connected Database')
 }
 
-export const Get_DB = async () => {
+export const Get_DB = () => {
   if (!trelloMongoDB) {
     throw new Error('Must connect database first')
   }

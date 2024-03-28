@@ -1,10 +1,6 @@
-/**
- * Updated by trungquandev.com's author on August 17 2023
- * YouTube: https://youtube.com/@trungquandev
- * "A bit of fragrance clings to the hand that gives flowers!"
- */
-
 import express from 'express'
+import cors from 'cors'
+import { corsOptions } from '~/config/cors'
 import { env } from '~/config/environment'
 import { Connect_DB, Close_DB } from '~/config/mongodb'
 import exitHook from 'async-exit-hook'
@@ -15,6 +11,7 @@ const start = async () => {
   try {
     await Connect_DB()
     const app = express()
+    app.use(cors(corsOptions))
     app.use(express.json())
     app.use('/v1', Router)
     app.use(errorHandlingMiddleware)
