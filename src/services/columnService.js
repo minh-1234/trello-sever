@@ -1,7 +1,9 @@
 import ApiError from '~/utils/ApiError'
 import { columnModel } from '~/models/columnModel'
 import { boardModel } from '~/models/boardModel'
-
+import { result } from 'lodash'
+import { cardModel } from '~/models/cardModel'
+import { StatusCodes } from 'http-status-codes'
 const createNew = async (reqBody) => {
 
   try {
@@ -35,7 +37,26 @@ const update = async (columnId, reqBody) => {
     throw new ApiError(error.statusCode, error.message)
   }
 }
+const deleteItem = async (columnId) => {
+  try {
+    // chuyen sang model
+    const targetColumn = await columnModel.findoneById(columnId)
+    if (!targetColumn) {
+      new ApiError(StatusCodes.NOT_FOUND, 'Not found column')
+    }
+    await columnModel.deleteColumn(columnId)
+
+    await cardModel.deleteManyCards(columnId)
+
+    await boardModel.pullColumnOrderIds(targetColumn)
+
+    return result
+  } catch (error) {
+    throw new ApiError(error.statusCode, error.message)
+  }
+}
 export const columnService = {
   createNew,
-  update
+  update,
+  deleteItem
 }

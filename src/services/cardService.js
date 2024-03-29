@@ -20,6 +20,38 @@ const createNew = async (reqBody) => {
     throw new ApiError(error.statusCode, error.message)
   }
 }
+const update = async (cardId, reqBody) => {
+  try {
+    // chuyen sang model
+    const updateData = {
+      ...reqBody,
+      updatedAt: Date.now()
+    }
+    const card = await cardModel.update(cardId, updateData)
+
+    return card
+  } catch (error) {
+    throw new ApiError(error.statusCode, error.message)
+  }
+}
+const deleteItem = async (cardId) => {
+  try {
+    // chuyen sang model
+    const targetCard = await cardModel.findoneById(cardId)
+    if (!targetCard) {
+      console.error('khong yim thay card can xoa')
+      return
+    }
+    await cardModel.deleteOneCard(cardId)
+    await columnModel.pullCardOrderIds(targetCard)
+    return { Result: 'Xoa thanh cong' }
+  } catch (error) {
+    throw new ApiError(error.statusCode, error.message)
+  }
+}
+
 export const cardService = {
-  createNew
+  createNew,
+  update,
+  deleteItem
 }

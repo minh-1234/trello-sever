@@ -78,11 +78,35 @@ const update = async (columnId, updateData) => {
   }
 
 }
+
+const deleteColumn = async (columnId) => {
+  try {
+    const result = await Get_DB().collection(COLUMN_COLLECTION_NAME).deleteOne({ _id: new ObjectId(columnId) })
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
+
+}
+const pullCardOrderIds = async (card) => {
+  try {
+    const result = await Get_DB().collection(COLUMN_COLLECTION_NAME).findOneAndUpdate(
+      { _id: new ObjectId(card.columnId) },
+      { $pull: { cardOrderIds: new ObjectId(card._id) } },
+      { returnDocument: 'after' }
+    )
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 export const columnModel = {
   COLUMN_COLLECTION_NAME,
   COLUMN_COLLECTION_SCHEMA,
   createNewColumn,
   findoneById,
   pushCardIds,
-  update
+  update,
+  deleteColumn,
+  pullCardOrderIds
 }

@@ -7,5 +7,6 @@ const columnRouter = express.Router()
 columnRouter.route('/').post(columnValidation.createNew, columnController.createNew)
 columnRouter.route('/:id')
   .put(columnValidation.update, columnController.update)
+  .delete(columnValidation.deleteItem, columnController.deleteItem)
 
 module.exports = columnRouter

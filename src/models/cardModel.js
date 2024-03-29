@@ -11,6 +11,7 @@ const CARD_COLLECTION_SCHEMA = Joi.object({
 
   title: Joi.string().required().min(3).max(50).trim().strict(),
   description: Joi.string().optional(),
+  cover: Joi.string().optional(),
 
   createdAt: Joi.date().timestamp('javascript').default(Date.now),
   updatedAt: Joi.date().timestamp('javascript').default(null),
@@ -61,6 +62,24 @@ const update = async (cardId, updateData) => {
   } catch (error) {
     throw new Error(error)
   }
+}
+
+const deleteManyCards = async (columnId) => {
+  try {
+    const result = await Get_DB().collection(CARD_COLLECTION_NAME).deleteMany({ columnId: new ObjectId(columnId) })
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
+
+}
+const deleteOneCard = async (cardId) => {
+  try {
+    const result = await Get_DB().collection(CARD_COLLECTION_NAME).deleteOne({ _id: new ObjectId(cardId) })
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
 
 }
 export const cardModel = {
@@ -68,5 +87,7 @@ export const cardModel = {
   CARD_COLLECTION_SCHEMA,
   createNewCard,
   findoneById,
-  update
+  update,
+  deleteManyCards,
+  deleteOneCard
 }

@@ -55,6 +55,7 @@ const moveCardToDifferentColumns = async (reqBody) => {
   // eslint-disable-next-line no-useless-catch
   try {
     // chuyen sang model
+
     await columnModel.update(reqBody.prevColumnId, { cardOrderIds: reqBody.prevCardOrderIds })
 
     await columnModel.update(reqBody.nextColumnId, { cardOrderIds: reqBody.nextCardOrderIds })
