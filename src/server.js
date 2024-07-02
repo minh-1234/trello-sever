@@ -17,7 +17,7 @@ const start = async () => {
     app.use(errorHandlingMiddleware)
     app.listen(env.APP_PORT, env.APP_HOST, () => {
       // eslint-disable-next-line no-console
-      console.log(`Hello Trung Quan Dev, I am running at ${env.APP_HOST}:${env.APP_PORT}/`)
+      console.log(`Hello, I am running at ${env.APP_HOST}:${env.APP_PORT}/`)
     })
     exitHook(() => {
       console.log('exit app')
